@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive To-Do List</title>
+    <style>
+        body {
+            background-color: #f4f7fc;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        #to-do-list {
+            margin-top: 1%;
+            margin-bottom: 5%;
+            width: 50%;
+            background: white;
+            padding: 20px;
+            border: 2px solid rgba(128, 128, 128, 0.62);
+            border-radius: 10px;
+            box-shadow: 0 0 3px 0px rgba(128, 128, 128, 0.62);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            text-transform: capitalize;
+        }
+
+        #add-list-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type='text'] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background-color: #45a049;
+        }
+
+        #list-items {
+            margin-top: 15px;
+        }
+
+        .list-item {
+            background: #fff;
+            padding: 10px;
+            border-top: 2px solid rgba(0, 128, 0, 0.636);
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .list-item:hover {
+            font-weight: 500;
+            color: navy;
+            cursor: pointer;
+        }
+
+        .list-item p {
+            margin: 0;
+            padding: 5px;
+            word-wrap: break-word;
+        }
+
+        .list-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .task-date {
+            font-size: 12px;
+            color: gray;
+        }
+
+        .remove-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 3px 6px;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .remove-btn:hover {
+            background-color: #e60000;
+        }
+
+        .finishedItem {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        @media (max-width: 500px) {
+            .remove-btn {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="to-do-list">
+        <h2>To-Do List</h2>
+        <div id="add-list-item">
+            <input type="text" placeholder="Enter a task...">
+            <button class="add-btn">Add Task</button>
+        </div>
+        <div id="list-items"></div>
+    </div>
+
+    <script>
+        document.querySelector('.add-btn').addEventListener('click', function() {
+            var itemText = document.querySelector('input[type=text]').value.trim();
+            if (itemText !== "") {
+                var listItemDiv = document.createElement('div');
+                listItemDiv.classList.add('list-item');
+                
+                var listItem = document.createElement('p');
+                listItem.innerText = itemText;
+                listItem.addEventListener('click', function () {
+                    listItem.classList.toggle('finishedItem');
+                });
+
+                var listItemFooter = document.createElement('div');
+                listItemFooter.classList.add('list-item-footer');
+
+                var taskDate = document.createElement('span');
+                taskDate.classList.add('task-date');
+                var date = new Date();
+                taskDate.innerText = date.toLocaleString();
+
+                var removeBtn = document.createElement('button');
+                removeBtn.innerText = 'Remove';
+                removeBtn.classList.add('remove-btn');
+                removeBtn.addEventListener('click', function() {
+                    listItemDiv.remove();
+                });
+
+                listItemFooter.appendChild(taskDate);
+                listItemFooter.appendChild(removeBtn);
+
+                listItemDiv.appendChild(listItem);
+                listItemDiv.appendChild(listItemFooter);
+                
+                document.getElementById('list-items').appendChild(listItemDiv);
+                document.querySelector('input[type=text]').value = '';
+            }
+        });
+    </script>
+</body>
+</html>
